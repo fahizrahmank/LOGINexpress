@@ -14,7 +14,7 @@ const userData = [
   { id: 3, name: "debug3", company: "facebook" },
 ];
 
-app.post("/user", (req, res) => {
+app.get("/user", (req, res) => {
     const query = parseInt(req.query.id)
     const userName = req.query.name
     const filteredDATA = userData.filter((data)=>{
@@ -35,9 +35,16 @@ app.post("/user/:id", (req, res) => {
     res.json(filteredDATA)
 });
 
+const userArray = []
+
 app.post('/adduser',(req,res)=> {
-    const data = req.body;
-    console.log(data);
+    const {name} = req.body;
+    userArray.push(name)
+    console.log(userArray);
+    res.json('data has been added succesfully')
+})
+app.get('/displayUser',(req,res)=> {
+    res.json(userArray)
 })
 
 app.get("/*", (req, res) => {

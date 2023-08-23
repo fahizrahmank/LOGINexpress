@@ -5,20 +5,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
+<div style="align-items: center;">
+    
+    <input class="form-control" type="text" placeholder="Default input">
+    <button type="submit" class="btn btn-outline-success">ADD</button>
+
+
+</div>
+<section class="details" style="width: 100px;height: 100px;background-color: aquamarine;">
+
+</section>
+
+
+
+
 <body>
     
     <script>
-        fetch('http://localhost:3001/adduser', {
+const input = document.querySelector('input')
+const addUserButton = document.querySelector('button')
+const detailsContainer = document.querySelector('.details')
+
+addUserButton.onclick = ()=> {
+    fetch('http://localhost:3001/adduser', {
             method:'POST',
             headers:{
                 'Content-Type':'application/json',
             },
             body:JSON.stringify({
-                name:'debugMediaa'
+                id:Date.now(),
+                name:input.value
             }),
         })
         .then((res)=>res.json())
-        .then((data)=>console.log(data))
+        .then((data)=>{
+            console.log(data),
+            displayUser()
+        })
+
+        input.value =''
+}
+
+       const addUserData = () => {
+
+        console.log(input.value);
+       
+       }
+
+       function displayUser() {
+        let section = ' '
+        fetch('http://localhost:3001/displayUser')
+        .then((res)=> res.json())
+        .then((data)=> {
+            data.array.forEach(element => {
+                section += <section>`   ${element.name}`</section>
+            });
+            detailsContainer.insertAdjacentHTML('beforeend',section)
+        })
+       } 
+
     </script>
 </body>
 </html>
